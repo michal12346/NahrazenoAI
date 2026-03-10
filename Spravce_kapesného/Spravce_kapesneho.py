@@ -1,23 +1,35 @@
-# Program na hlidani penez - 1 verze
-print("-----------------------------------------")
-print("Vitejte v programu Spravce kapesneho")
-print("-----------------------------------------")
+# Program na hlidani penez - FINÁLNÍ VERZE
+# Pridany komentare k logicky castem
 
-# Tady si nastavim kolik mam penez na zacatku
-nasetreno = float(input("Zadej, kolik mas celkem penez: "))
-limit = float(input("Zadej svuj tydenni limit na utratu: "))
+pokracovat = "ano"
 
-# Seznam vydaju - zatim jen tri polozky at to neni slozity
-print("Zadej nyni svoje posledni tri nakupy:")
-jidlo = float(input("1. Kolik jsi dal za jidlo: "))
-zabava = float(input("2. Kolik jsi dal za zabavu: "))
-ostatni = float(input("3. Kolik jsi dal za ostatni veci: "))
+# Hlavni smycka - program bezi dokud uzivatel chce zadavat data
+# Zaměřeno na logiku cyklu
+while pokracovat == "ano":
+    print("--- ZADAVANI NOVYCH UDAJU ---")
+    nasetreno = float(input("Kolik mas nyni penez: "))
+    limit = float(input("Tvuj tydenni limit na utratu: "))
+    
+    # Načítání hodnot do proměnných
+    jidlo = float(input("Utrata za jidlo: "))
+    zabava = float(input("Utrata za zabavu: "))
+    ostatni = float(input("Ostatni utraty: "))
+    
+    celkova_utrata = jidlo + zabava + ostatni
+    zbytek = nasetreno - celkova_utrata
+    
+    # Vetveni programu pro kontrolu penez
+    if celkova_utrata > limit:
+        print("!!! ALERT: Limit prekrocen o", celkova_utrata - limit, "Kc.")
+    elif celkova_utrata == limit:
+        print("Opatrne, ses presne na limitu.")
+    else:
+        print("Vsechno v poradku, mas rezervu.")
+        
+    print("Zbyva ti:", zbytek, "Kc.")
+    
+    # Dotaz na uzivatele jestli chce cely proces opakovat
+    # Pokud napise cokoli jineho nez 'ano', smycka while skonci
+    pokracovat = input("Chces zadat nove udaje? (ano/ne): ")
 
-# Zakladni vypocet celkove utraty
-celkova_utrata = jidlo + zabava + ostatni
-
-print("-----------------------------------------")
-print("Zadal jsi vsechny udaje.")
-print("Tvoje aktualni utrata je zatim:", celkova_utrata)
-print("V penezence ti zbyva:", nasetreno - celkova_utrata)
-print("-----------------------------------------")
+print("Program ukoncen. Mej se hezky!")
