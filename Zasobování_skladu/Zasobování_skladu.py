@@ -1,34 +1,24 @@
-# Simulátor skladu - 1 VERZE
-# Základní pohyb zboží
+# Simulátor skladu - 2 VERZE
+# Přidáno hlídání maximální kapacity
 
-sklad_nazev = "Elektronika"
+kapacita_skladu = 500
 aktualni_zasoby = 100
 minimalni_limit = 20
 
-print(f"--- VITEJTE V SYSTEMU SKLADU: {sklad_nazev} ---")
-
-# Hlavní smyčka simulace
 pokracovat = "ano"
 while pokracovat == "ano":
-    print(f"\nAktuální stav: {aktualni_zasoby} ks")
+    # Výpočet procentuálního zaplnění pro lepší přehlednost
+    procento_zaplneni = (aktualni_zasoby / kapacita_skladu) * 100
+    print(f"\nSklad je zaplněn z {procento_zaplneni}% ({aktualni_zasoby}/{kapacita_skladu} ks)")
     
-    # Zadávání pohybu zboží
-    vydano = int(input("Kolik kusů se dnes prodalo: "))
-    prijato = int(input("Kolik kusů přivezli z továrny: "))
+    prijato = int(input("Kolik kusů chcete naskladnit: "))
     
-    # Logika aktualizace stavu
-    # Přičteme nové zboží a odečteme prodané
-    aktualni_zasoby = aktualni_zasoby + prijato - vydano
-    
-    # Kontrola kritického stavu
-    if aktualni_zasoby < 0:
-        print("!!! CHYBA: Sklad nemůže jít do záporu. Resetuji na 0.")
-        aktualni_zasoby = 0
-    elif aktualni_zasoby <= minimalni_limit:
-        print(f"!!! VAROVÁNÍ: Stav klesl pod limit {minimalni_limit} ks! Objednejte zboží.")
+    # Logika kontroly kapacity - zaměřeno na přetečení skladu
+    if aktualni_zasoby + prijato > kapacita_skladu:
+        print("!!! CHYBA: Tolik zboží se sem nevejde!")
+        print(f"Můžeš naskladnit maximálně {kapacita_skladu - aktualni_zasoby} ks.")
     else:
-        print("Stav zásob je v normě.")
-
-    pokracovat = input("Chceš pokračovat dalším dnem? (ano/ne): ")
-
-print("Systém vypnut.")
+        aktualni_zasoby += prijato
+        print("Zboží úspěšně naskladněno.")
+        
+    pokracovat = input("Chceš pokračovat? (ano/ne): ")
