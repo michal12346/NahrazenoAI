@@ -1,24 +1,33 @@
-# Simulátor skladu - 2 VERZE
-# Přidáno hlídání maximální kapacity
+ Simulátor skladu - FINÁLNÍ VERZE
+# Práce s více položkami a logické vyhodnocení
 
-kapacita_skladu = 500
-aktualni_zasoby = 100
-minimalni_limit = 20
+# Nastavení počátečních hodnot pro dva druhy zboží
+telefony = 100
+notebooky = 50
+limit = 10
 
 pokracovat = "ano"
 while pokracovat == "ano":
-    # Výpočet procentuálního zaplnění pro lepší přehlednost
-    procento_zaplneni = (aktualni_zasoby / kapacita_skladu) * 100
-    print(f"\nSklad je zaplněn z {procento_zaplneni}% ({aktualni_zasoby}/{kapacita_skladu} ks)")
+    print("\n--- DENNÍ PŘEHLED ZÁSOB ---")
+    print(f"Telefony: {telefony} ks | Notebooky: {notebooky} ks")
     
-    prijato = int(input("Kolik kusů chcete naskladnit: "))
+    # Simulace prodejů pomocí vstupů
+    prodano_tel = int(input("Prodaných telefonů dnes: "))
+    prodano_ntb = int(input("Prodaných notebooků dnes: "))
     
-    # Logika kontroly kapacity - zaměřeno na přetečení skladu
-    if aktualni_zasoby + prijato > kapacita_skladu:
-        print("!!! CHYBA: Tolik zboží se sem nevejde!")
-        print(f"Můžeš naskladnit maximálně {kapacita_skladu - aktualni_zasoby} ks.")
+    # Logika odečtu s kontrolou, aby stav nebyl záporný
+    # Využití funkce max() zajistí, že nejnižší hodnota bude 0
+    telefony = max(0, telefony - prodano_tel)
+    notebooky = max(0, notebooky - prodano_ntb)
+    
+    # Komplexní vyhodnocení stavu skladu (Větvení)
+    if telefony < limit and notebooky < limit:
+        print("!!! KRITICKÝ STAV: Celý sklad je téměř prázdný!")
+    elif telefony < limit or notebooky < limit:
+        print("UPOZORNĚNÍ: Jedna z položek dochází.")
     else:
-        aktualni_zasoby += prijato
-        print("Zboží úspěšně naskladněno.")
+        print("Vše v pořádku, zásob je dostatek.")
         
-    pokracovat = input("Chceš pokračovat? (ano/ne): ")
+    pokracovat = input("Chceš simulovat další den? (ano/ne): ")
+
+print("--- KONEC SIMULACE ---")
