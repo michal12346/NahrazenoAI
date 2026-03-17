@@ -1,4 +1,4 @@
-# Generator hesel - 1 VERZE
+# Generator hesel -  1 VERZE
 
 import secrets
 import string
