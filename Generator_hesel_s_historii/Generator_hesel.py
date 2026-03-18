@@ -13,10 +13,10 @@ def init_db():
     # Spustí příkaz pro vytvoření tabulky historie, pokud v souboru ještě neexistuje
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS historie (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,  # Unikátní číslo pro každý řádek (1, 2, 3...)
-        heslo TEXT NOT NULL,                  # Sloupec pro uložení samotného hesla
-        delka INTEGER,                        # Sloupec pro uložení délky hesla
-        cas TEXT                              # Sloupec pro uložení času vytvoření
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        heslo TEXT NOT NULL,
+        delka INTEGER,
+        cas TEXT
     )
     """)
 
@@ -34,6 +34,7 @@ def generate_password(length=12):
 
 # FUNKCE PRO ULOŽENÍ HESLA
 def save_password(password):
+
     conn = sqlite3.connect("hesla.db")  # Otevře spojení s databází
     cursor = conn.cursor()  # Připraví kurzor pro zápis dat
 
