@@ -8,4 +8,4 @@
 * **Použité knihovny:** * `time`: Byla použita standardní knihovna pro získání aktuálního času (pomocí `strftime`) a pro časovou prodlevu (pomocí `sleep`), která zajišťuje obnovování přesně po jedné vteřině.
   * `os`: Slouží pro detekci operačního systému a odeslání systémového příkazu k promazání obrazovky (`cls` nebo `clear`).
 * **Algoritmy:** Jádrem programu je nekonečná smyčka `while True`, která neustále opakuje 4 kroky: smazání konzole, načtení času, výpis na obrazovku a uspání programu na 1 sekundu.
-* **Vlastní datové struktury / API:** Program je koncipován jako jednoduchý skript pro začátečníky, nevyužívá složité datové struktury ani nevolá externí API (funguje zcela offline se systémovým časem zařízení).
+* **Vlastní datové struktury / API:** Program je koncipován jako jednoduchý skript pro začátečníky, nevyužívá složité datové struktury ani nevolá externí API (funguje zcela offline se systémovým časem zařízení). 
