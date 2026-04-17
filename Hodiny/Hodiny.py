@@ -1,17 +1,35 @@
-# Hodiny - DRUHÁ VERZE
+# Hodiny - FINÁLNÍ VERZE
 
-# Importujeme knihovnu time pro práci s časem a pozastavení programu
+# Importujeme 'time' pro čas a 'os' pro interakci s operačním systémem
 import time
+import os
 
-# Začátek logicky složitější části: Nekonečná smyčka 'while'
-# Podmínka 'True' znamená, že smyčka poběží donekonečna, dokud program natvrdo nevypneme
-while True:
-    # Získáme aktuální čas v každém průběhu smyčky
-    aktualni_cas = time.strftime("%H:%M:%S")
-    
-    # Vypíšeme nový čas na nový řádek v konzoli
-    print("Aktuální čas:", aktualni_cas)
-    
-    # Funkce sleep() uspí program přesně na 1 vteřinu
-    # Děláme to proto, aby nám to nezahltilo počítač a čas se měnil po vteřinách
-    time.sleep(1)
+# Funkce, která řeší problém s vypisováním času pod sebe
+def vymaz_obrazovku():
+    # Podmínka zjišťuje, jaký má uživatel operační systém
+    # 'nt' znamená Windows, cokoliv jiného je většinou Mac nebo Linux
+    if os.name == 'nt':
+        os.system('cls')   # Příkaz pro smazání konzole ve Windows
+    else:
+        os.system('clear') # Příkaz pro smazání konzole na Mac/Linux
+
+# Hlavní funkce programu, která sdružuje celou logiku hodin
+def spust_hodiny():
+    # Naše nekonečná smyčka pro běh hodin
+    while True:
+        # 1. Nejdřív zavoláme naši funkci a smažeme starý text na obrazovce
+        vymaz_obrazovku()
+        
+        # 2. Získáme nový aktuální čas
+        aktualni_cas = time.strftime("%H:%M:%S")
+        
+        # 3. Hezky ho vypíšeme s rámečkem
+        print("====================")
+        print(f" Aktuální čas: {aktualni_cas}")
+        print("====================")
+        
+        # 4. Počkáme 1 vteřinu, než se smyčka zopakuje a znovu vše smaže
+        time.sleep(1)
+
+# Samotné spuštění hlavní funkce (bez tohoto řádku by program nic neudělal)
+spust_hodiny()
