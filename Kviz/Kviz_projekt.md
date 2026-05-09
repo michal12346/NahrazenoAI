@@ -1,14 +1,19 @@
 # Název projektu
-Kvízová aplikace v Pythonu
+Univerzální kvízová aplikace
 
 # Popis a cíl projektu
-Jedná se o jednoduchou konzolovou aplikaci. Cílem projektu je vytvořit interaktivní hru, která otestuje znalosti uživatele v různých odvětvích (geografie, matematika, astronomie). Projekt slouží jako ukázka základní práce se vstupy uživatele, cykly a podmínkami.
+Cílem projektu je vytvořit flexibilní vzdělávací nástroj v jazyce Python. Aplikace je navržena tak, aby dokázala kombinovat různé formáty testování (výběr z možností i otevřené otázky), čímž zvyšuje náročnost a interaktivitu pro uživatele.
 
 # Popis funkcionality programu
-Program po spuštění postupně vypisuje na obrazovku předem definované otázky. Po každé otázce program čeká, až uživatel z klávesnice zadá svou odpověď a potvrdí ji klávesou Enter. Aplikace následně odpověď vyhodnotí (přičemž ignoruje velikost písmen a zbytečné mezery, aby bylo hodnocení spravedlivé) a informuje uživatele, zda odpověděl správně, či nikoliv. Pokud uživatel chybuje, program mu vypíše správnou odpověď. Na konci kvízu se zobrazí celkové skóre – počet správných odpovědí z celkového počtu otázek.
+Program po spuštění náhodně seřadí otázky z databáze. U každé položky systém rozpozná její typ:
+1. U výběrových otázek nabídne možnosti a) b) c).
+2. U otevřených otázek vyzve uživatele k přímému vepsání odpovědi.
+Vstup od uživatele je automaticky očištěn o nadbytečné mezery a rozdíly ve velikosti písmen. Po každé odpovědi následuje okamžitá zpětná vazba. Na konci hry program vypočítá úspěšnost a nabídne uživateli možnost spustit test znovu s novým pořadím otázek.
 
 # Technická část
-* **Použité knihovny:** Program nevyužívá žádné externí knihovny, je napsán v čistém Pythonu pomocí standardní knihovny.
-* **Algoritmy a řídící struktury:** Základem logiky je iterativní procházení dat (cyklus `for`) a kontrolní struktura větvení (podmínky `if-else`) pro vyhodnocení správnosti uživatelského vstupu vůči uloženým datům.
-* **Vlastní datové struktury:** Pro uložení otázek a k nim přiřazených odpovědí je využita vestavěná datová struktura typu slovník (`dict`). Klíčem (key) je text otázky a hodnotou (value) je správná odpověď ve formátu textového řetězce (`String`).
-* **Volání externího API:** Aplikace běží zcela offline a nekomunikuje s žádným externím API.
+* **Použité knihovny:** Využit modul `random` pro metodu `shuffle`, která zajišťuje náhodnost testu.
+* **Algoritmy a řídící struktury:** * **Herní smyčka (while):** Zajišťuje plynulý chod a možnost restartu.
+    * **Rozpoznávání typu (if-else):** Algoritmus uvnitř cyklu for mění chování programu (výpis možností vs. volný vstup) na základě metadat otázky.
+    * **Zpracování textu:** Metody `.lower()` a `.strip()` pro eliminaci chyb uživatele při psaní.
+* **Vlastní datové struktury:** Seznam (`list`) obsahující komplexní slovníky (`dict`). Každý slovník nese unikátní klíče (text, typ, spravne, moznosti), které definují chování dané otázky.
+* **Volání externího API:** Aplikace je plně autonomní a nevyžaduje připojení k síti.
