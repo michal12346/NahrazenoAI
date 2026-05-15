@@ -1,47 +1,54 @@
-# Kviz - ŠESTÁ VERZE
+# Kviz - SEDMÁ VERZE
 
 import random
+import time # Importujeme modul pro práci s časem
 
 def spustit_kviz():
-    # Databáze 10 otázek: mix výběrových (volba) a otevřených (otevrena)
+    # Zatím přidáme jen jednu ukázkovou časovku, abychom otestovali logiku
     otazky = [
         {"text": "Jaké je hlavní město ČR?", "moznosti": "a) Brno  b) Praha  c) Ostrava", "spravne": "b", "typ": "volba"},
-        {"text": "Napiš jméno prvního čs. prezidenta:", "spravne": "Tomáš Garrigue Masaryk", "typ": "otevrena"},
-        {"text": "Kolik je 5 + 5?", "moznosti": "a) 10  b) 12  c) 8", "spravne": "a", "typ": "volba"},
-        {"text": "Jak se jmenuje naše galaxie?", "spravne": "Mléčná dráha", "typ": "otevrena"},
-        {"text": "Která planeta je nejblíže Slunci?", "moznosti": "a) Venuše  b) Země  c) Merkur", "spravne": "c", "typ": "volba"},
-        {"text": "Jak se jmenuje nejdelší řeka světa?", "spravne": "Amazonka", "typ": "otevrena"},
-        {"text": "Jaký chemický prvek má značku O?", "moznosti": "a) Zlato  b) Kyslík  c) Olovo", "spravne": "b", "typ": "volba"},
-        {"text": "Napiš hlavní město Francie:", "spravne": "Paříž", "typ": "otevrena"},
-        {"text": "V jakém roce skončila 2. sv. válka?", "moznosti": "a) 1945  b) 1939  c) 1918", "spravne": "a", "typ": "volba"},
-        {"text": "Kdo napsal hru R.U.R.?", "spravne": "Karel Čapek", "typ": "otevrena"}
+        {"text": "RYCHLOVKA: Kolik je 7 * 8?", "spravne": "56", "typ": "casovka", "limit": 10}
     ]
 
-    # Hlavní smyčka pro možnost opakování hry
     while True:
         random.shuffle(otazky)
         skore = 0
         
-        # Iterace přes seznam otázek
         for otazka in otazky:
             print("-" * 20)
             print(otazka["text"])
             
-            # Dynamické zobrazení podle typu
-            if otazka["typ"] == "volba":
+            # Zpracování nového typu otázky "casovka"
+            if otazka["typ"] == "casovka":
+                print(f"!!! POZOR, máš jen {otazka['limit']} sekund !!!")
+                
+                start_cas = time.time() # Zaznamená aktuální čas před zadáním
+                odpoved = input("Tvoje odpověď: ")
+                konec_cas = time.time() # Zaznamená čas po stisknutí Enter
+                
+                uplynuly_cas = konec_cas - start_cas # Vypočítá, jak dlouho to trvalo
+                
+                # Pokud to trvalo déle, než je limit, rovnou skočíme na další otázku
+                if uplynuly_cas > otazka["limit"]:
+                    # .1f znamená, že vypíšeme čas zaokrouhlený na 1 desetinné místo
+                    print(f">>> Čas vypršel! Trvalo ti to {uplynuly_cas:.1f} s.")
+                    print(f">>> Správně bylo: {otazka['spravne']}")
+                    continue # Příkaz continue přeskočí zbytek cyklu a jde na další otázku
+            
+            # Zpracování klasických otázek
+            elif otazka["typ"] == "volba":
                 print(otazka["moznosti"])
                 odpoved = input("Tvoje volba (a/b/c): ")
             else:
                 odpoved = input("Tvoje odpověď: ")
 
-            # Robustní kontrola shody textu
+            # Společné vyhodnocení pro včasné odpovědi
             if odpoved.lower().strip() == otazka["spravne"].lower().strip():
                 print(">>> Správně!")
                 skore += 1
             else:
                 print(f">>> Špatně! Správně bylo: {otazka['spravne']}")
         
-        # Závěrečné vyhodnocení
         print("\n" + "=" * 25)
         print(f"KVÍZ DOKONČEN! Skóre: {skore} / {len(otazky)}")
         print("=" * 25)
