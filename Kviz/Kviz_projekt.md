@@ -1,24 +1,53 @@
-# Název projektu
-Univerzální modulární kvíz s časovým limitem a kategoriemi
+# Dokumentace k projektu: Parádní Multi-Kvíz
 
-# Popis a cíl projektu
-Cílem projektu je vytvořit pokročilou konzolovou aplikaci v jazyce Python pro testování vědomostí. Projekt demonstruje, jak v praxi dynamicky pracovat s datovými strukturami, čistit uživatelské vstupy a implementovat časově závislou logiku (real-time management) bez nutnosti grafického rozhraní.
+## 1. Úvodní informace
+**Parádní Multi-Kvíz** je interaktivní konzolová hra naprogramovaná v jazyce Python. Hráčům nabízí možnost otestovat své znalosti v různých kategoriích a typech otázek. Program je navržen tak, aby byl uživatelsky přívětivý, obsahoval herní mechaniky (životy) a pamatoval si historicky nejlepší výsledek hráče.
 
-# Popis funkcionality programu
-Program na začátku identifikuje uživatele pomocí vstupu pro jméno a inicializuje paměť pro osobní rekordy. Následně nabídne interaktivní menu se třemi tématickými kategoriemi: Geografie, Věda a technika, Rychlovky. 
+---
 
-Po výběru kategorie program dynamicky vyfiltruje příslušné otázky z databáze a spustí herní smyčku:
-1. **Výběrové otázky:** Možnosti jsou před zobrazením náhodně promíchány a dynamicky indexovány písmeny a), b), c). Správná volba se tedy mění s každým spuštěním.
-2. **Otevřené otázky:** Vyžadují přímý textový zápis odpovědi.
-3. **Časové rychlovky:** Aktivují interní stopky. Pokud časový rozdíl mezi zobrazením otázky a odesláním odpovědi přesáhne 10 sekund, odpověď je neplatná.
+## 2. Herní mechaniky a funkce
 
-Aplikace zpracovává vstupy robustně (ignoruje chyby v mezerách a velikosti písmen). Na konci kola vyhodnotí úspěšnost, aktualizuje osobní rekord hráče a umožní opakované spuštění.
+Program nabízí následující klíčové vlastnosti:
 
-# Technická část
-* **Použité knihovny:** * `random`: Využití metod `random.shuffle()` pro míchání pořadí otázek i samotných textových odpovědí.
-  * `time`: Využití funkce `time.time()` pro získání unixového času v sekundách a měření reakční doby.
-* **Algoritmy a řídící struktury:** * **Filtrování dat (List comprehension / Cyklus):** Algoritmus na základě uživatelské volby projde celou databázi a sestaví seznam otázek s odpovídajícím ID kategorie.
-  * **Enumerate a mapování:** Indexování zamíchaných polí a jejich provázání s kontrolními klíči.
-  * **Řízení toku (continue / break):** Příkaz `continue` zajišťuje okamžité vypršení limitu bez závislosti na správnosti napsaného slova.
-* **Vlastní datové struktury:** Komplexní vnořená struktura typu Seznam slovníků (`List of Dictionaries`), kde hodnota klíče `"moznosti"` obsahuje další vnořený Seznam (`List`) textových řetězců.
-* **Volání externího API:** Program nevyužívá síťové přenosy a běží lokálně.
+* **Výběr kategorií:** Hráč si na začátku volí ze tří tematických okruhů (1. Geografie, 2. Věda a technika, 3. Rychlovky). Program vyfiltruje a nabídne pouze otázky z dané kategorie.
+* **Tři typy otázek:**
+    * **Výběrové (volba):** Hráč vybírá z možností a), b), c). Možnosti se při každém spuštění náhodně míchají.
+    * **Otevřené:** Hráč musí přímo napsat přesný text odpovědi.
+    * **Časovky:** Speciální otázky s časovým limitem (např. 10 sekund). Pokud hráč neodpoví včas, ztrácí bod i život.
+* **Systém životů (Game Over mechanika):** Hráč začíná každé kolo se 3 životy (reprezentovanými symboly ❤️). Za každou špatnou odpověď nebo vypršení časového limitu ztrácí jeden život. Jakmile životy klesnou na nulu, hra okamžitě končí.
+* **Nekonečná smyčka:** Po dokončení (nebo prohře) se program hráče zeptá, zda chce hrát znovu. Hra běží, dokud ji hráč sám neukončí.
+
+---
+
+## 3. Technické řešení
+
+Kód je napsán s ohledem na čitelnost a je plně okomentován. Využívá základní struktury jazyka Python:
+
+### Použité moduly
+* `import random`: Využito pro náhodné míchání pořadí otázek i samotných odpovědí (možností) u výběrových otázek pomocí funkce `random.shuffle()`.
+* `import time`: Využito pro logiku časovek. Zaznamenává se čas před odesláním odpovědi (`time.time()`) a po něm. Rozdíl těchto hodnot určuje uplynulý čas.
+
+### Struktura dat
+Všechny otázky jsou uloženy v jednom hlavním **seznamu** (List). Každá jednotlivá otázka je reprezentována jako **slovník** (Dictionary) s klíči jako `"text"`, `"spravne"`, `"typ"` a `"kategorie"`.
+
+### Práce se soubory a výjimky (I/O)
+Program umí trvale ukládat nejlepší skóre (osobní rekord), aby data přežila i vypnutí aplikace:
+* **Čtení:** Na začátku hry se program pomocí chráněného bloku `try-except` pokusí otevřít textový soubor `rekord.txt` v režimu čtení (`r`). Pokud soubor neexistuje, program nespadne, ale výjimka `FileNotFoundError` tuto situaci odchytí a nastaví rekord na hodnotu `0`.
+* **Zápis:** Pokud hráč na konci kola překoná historický rekord, program otevře soubor `rekord.txt` v režimu zápisu (`w`) a novou hodnotu do něj uloží (přepíše tu starou).
+
+---
+
+## 4. Spuštění programu
+
+**Požadavky:** Nainstalovaný Python verze 3.x.
+
+1.  Otevři příkazový řádek (Terminál / CMD).
+2.  Pomocí příkazu `cd` se přesuň do složky, kde je projekt uložen.
+3.  Zadej příkaz:
+    ```bash
+    python kviz.py
+    ```
+4.  Dále už jen postupuj podle instrukcí na obrazovce.
+
+---
+*Vytvořeno jako cvičný projekt pro pochopení základů programování v Pythonu.*
