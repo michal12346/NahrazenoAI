@@ -12,7 +12,7 @@
 |011|  Vylepšení projektu kviz 2  | 15.5.2026                 
 |012|  Vylepšení projektu kviz 3  | 21.5.2026              
 |013|  Vylepšení projektu kviz 4  | 29.5.2026                    
-
+|013|  Vylepšení projektu kviz 5  | 04.6.2026       
 
 
 
