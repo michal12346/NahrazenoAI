@@ -1,11 +1,11 @@
-# Kviz - SEDUMNÁCTÁ VERZE
+# Kviz - OSMNÁCTÁ VERZE
 
 import random
 import time
 
 def spustit_kviz():
     otazky = [
-        # --- KATEGORIE 1: Geografie (Nyní 10 otázek) ---
+        # --- KATEGORIE 1: Geografie (10 otázek) ---
         {"text": "Jaké je hlavní město ČR?", "moznosti": ["Praha", "Brno", "Ostrava"], "spravne": "Praha", "typ": "volba", "kategorie": "1"},
         {"text": "Jaká je nejvyšší hora České republiky?", "moznosti": ["Praděd", "Sněžka", "Lysá hora"], "spravne": "Sněžka", "typ": "volba", "kategorie": "1"},
         {"text": "Napiš hlavní město Francie:", "spravne": "Paříž", "typ": "otevrena", "kategorie": "1"},
@@ -17,12 +17,17 @@ def spustit_kviz():
         {"text": "Na kterém kontinentu leží Egypt?", "moznosti": ["Asie", "Afrika", "Evropa"], "spravne": "Afrika", "typ": "volba", "kategorie": "1"},
         {"text": "Napiš jméno státu, který je naším východním sousedem:", "spravne": "Slovensko", "typ": "otevrena", "kategorie": "1"},
 
-        # --- KATEGORIE 2: Věda a technika (Zatím 5 otázek) ---
+        # --- KATEGORIE 2: Věda a technika (Nyní 10 otázek) ---
         {"text": "Kolik je 5 + 5?", "moznosti": ["10", "12", "8"], "spravne": "10", "typ": "volba", "kategorie": "2"},
         {"text": "Která planeta je nejblíže Slunci?", "moznosti": ["Venuše", "Merkur", "Země"], "spravne": "Merkur", "typ": "volba", "kategorie": "2"},
         {"text": "Jaký chemický prvek má značku O?", "moznosti": ["Zlato", "Kyslík", "Olovo"], "spravne": "Kyslík", "typ": "volba", "kategorie": "2"},
         {"text": "Který savec umí jako jediný aktivně létat?", "spravne": "netopýr", "typ": "otevrena", "kategorie": "2"},
         {"text": "Který programovací jazyk používáme pro tento kvíz?", "moznosti": ["Java", "Python", "C++"], "spravne": "Python", "typ": "volba", "kategorie": "2"},
+        {"text": "Který orgán pumpuje krev v lidském těle?", "spravne": "srdce", "typ": "otevrena", "kategorie": "2"},
+        {"text": "Kolik je 12 * 12?", "moznosti": ["144", "124", "142"], "spravne": "144", "typ": "volba", "kategorie": "2"},
+        {"text": "Jak se jmenuje galaxie, ve které se nachází Země?", "moznosti": ["Andromeda", "Mléčná dráha", "Sombrero"], "spravne": "Mléčná dráha", "typ": "volba", "kategorie": "2"},
+        {"text": "Napiš chemickou značku pro zlato:", "spravne": "Au", "typ": "otevrena", "kategorie": "2"},
+        {"text": "Kdo zformuloval teorii relativity?", "moznosti": ["Isaac Newton", "Albert Einstein", "Nikola Tesla"], "spravne": "Albert Einstein", "typ": "volba", "kategorie": "2"},
 
         # --- KATEGORIE 3: Rychlovky (Zatím 5 otázek) ---
         {"text": "RYCHLOVKA: Kolik je 7 * 8?", "spravne": "56", "typ": "casovka", "limit": 10, "kategorie": "3"},
