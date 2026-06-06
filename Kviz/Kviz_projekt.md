@@ -9,11 +9,12 @@
 
 Program nabízí následující klíčové vlastnosti:
 
-* **Výběr kategorií:** Hráč si na začátku volí ze tří tematických okruhů (1. Geografie, 2. Věda a technika, 3. Rychlovky). Program vyfiltruje a nabídne pouze otázky z dané kategorie.
+* **Bohatá databáze otázek:** Hra aktuálně operuje s databází 30 různých otázek, aby bylo každé spuštění pestré a výzva byla reálná.
+* **Výběr kategorií:** Hráč si na začátku volí ze tří tematických okruhů (1. Geografie, 2. Věda a technika, 3. Rychlovky). Program vyfiltruje a nabídne z každé sekce 10 otázek.
 * **Tři typy otázek:**
     * **Výběrové (volba):** Hráč vybírá z možností a), b), c). Možnosti se při každém spuštění náhodně míchají.
-    * **Otevřené:** Hráč musí přímo napsat přesný text odpovědi.
-    * **Časovky:** Speciální otázky s časovým limitem (např. 10 sekund). Pokud hráč neodpoví včas, ztrácí bod i život.
+    * **Otevřené:** Hráč musí přímo napsat přesný text odpovědi (systém je ovšem benevolentní k velikosti písmen).
+    * **Časovky:** Speciální otázky s pevným časovým limitem (zpravidla 10 sekund). Pokud hráč neodpoví včas, ztrácí bod i život.
 * **Systém životů (Game Over mechanika):** Hráč začíná každé kolo se 3 životy (reprezentovanými symboly ❤️). Za každou špatnou odpověď nebo vypršení časového limitu ztrácí jeden život. Jakmile životy klesnou na nulu, hra okamžitě končí.
 * **Nekonečná smyčka:** Po dokončení (nebo prohře) se program hráče zeptá, zda chce hrát znovu. Hra běží, dokud ji hráč sám neukončí.
 
@@ -28,7 +29,7 @@ Kód je napsán s ohledem na čitelnost a je plně okomentován. Využívá zák
 * `import time`: Využito pro logiku časovek. Zaznamenává se čas před odesláním odpovědi (`time.time()`) a po něm. Rozdíl těchto hodnot určuje uplynulý čas.
 
 ### Struktura dat
-Všechny otázky jsou uloženy v jednom hlavním **seznamu** (List). Každá jednotlivá otázka je reprezentována jako **slovník** (Dictionary) s klíči jako `"text"`, `"spravne"`, `"typ"` a `"kategorie"`.
+Všechny otázky jsou uloženy v jednom hlavním **seznamu** (List). Každá z 30 položek je reprezentována jako **slovník** (Dictionary) s klíči jako `"text"`, `"spravne"`, `"typ"` a `"kategorie"`. Díky této modulární struktuře lze další stovky otázek přidávat bez nutnosti měnit aplikační logiku programu.
 
 ### Práce se soubory a výjimky (I/O)
 Program umí trvale ukládat nejlepší skóre (osobní rekord), aby data přežila i vypnutí aplikace:
@@ -50,4 +51,4 @@ Program umí trvale ukládat nejlepší skóre (osobní rekord), aby data přež
 4.  Dále už jen postupuj podle instrukcí na obrazovce.
 
 ---
-*Vytvořeno jako cvičný projekt pro pochopení základů programování v Pythonu.*
+*Vytvořeno jako projekt pro pochopení základů programování, kolekcí a práce s daty v Pythonu.*
