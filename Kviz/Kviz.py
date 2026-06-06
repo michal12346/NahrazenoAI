@@ -1,4 +1,4 @@
-# Kviz - OSMNÁCTÁ VERZE
+# Kviz - DEVATENÁCTÁ VERZE
 
 import random  # Importujeme modul 'random' pro náhodné míchání otázek a možností.
 import time  # Importujeme modul 'time' pro měření času u časovek.
