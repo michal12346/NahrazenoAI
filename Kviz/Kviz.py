@@ -1,10 +1,16 @@
-# Kviz - DVACÁTÁ VERZE
+# Kviz - DVACÁTÁPRVÁ VERZE
 
-import random  # Importujeme modul pro náhodné míchání (seznamů, otázek).
-import time    # Importujeme modul pro měření času u časovek.
+import random  
+import time    
+
+# Zde definujeme konstanty pro barvy pomocí ANSI escape sekvencí.
+# Tímto říkáme terminálu, ať změní barvu vypisovaného textu.
+ZELENA = '\033[92m'
+CERVENA = '\033[91m'
+ZLUTA = '\033[93m'
+RESET = '\033[0m' # Tento kód vrátí barvu zpět na normální (výchozí).
 
 def spustit_kviz():
-    # Zde definujeme hlavní datovou strukturu: Seznam slovníků. Každý slovník = jedna otázka.
     otazky = [
         # --- KATEGORIE 1: Geografie ---
         {"text": "Jaké je hlavní město ČR?", "moznosti": ["Praha", "Brno", "Ostrava"], "spravne": "Praha", "typ": "volba", "kategorie": "1"},
@@ -43,19 +49,17 @@ def spustit_kviz():
         {"text": "RYCHLOVKA: Kolik měsíců má jeden kalendářní rok?", "spravne": "12", "typ": "casovka", "limit": 10, "kategorie": "3"}
     ]
 
-    print("=== VÍTEJ V PARÁDNÍM MULTI-KVÍZU ===")
+    print(f"{ZLUTA}=== VÍTEJ V PARÁDNÍM MULTI-KVÍZU ===\n{RESET}")
     jmeno_hrace = input("Zadej své jméno: ").strip()
     
-    # Blok try-except se stará o bezpečné načtení souboru. Pokud soubor neexistuje, program nespadne.
     try:
         with open("rekord.txt", "r", encoding="utf-8") as soubor:
             osobni_rekord = int(soubor.read())
-            print(f"> Načten tvůj historický rekord ze souboru: {osobni_rekord} bodů!")
+            print(f"{ZELENA}> Načten tvůj historický rekord ze souboru: {osobni_rekord} bodů!{RESET}")
     except FileNotFoundError:
         osobni_rekord = 0
-        print("> Zatím nemáš uložený žádný rekord. Čas ho vytvořit!")
+        print(f"{ZLUTA}> Zatím nemáš uložený žádný rekord. Čas ho vytvořit!{RESET}")
 
-    # Hlavní herní smyčka. Běží donekonečna, dokud ji neukončíme příkazem 'break'.
     while True:
         print("\nVyber si téma kvízu:")
         print("1) Geografie")
@@ -64,53 +68,48 @@ def spustit_kviz():
         
         volba_kategorie = input("Zadej číslo kategorie (1/2/3): ").strip()
         if volba_kategorie not in ["1", "2", "3"]:
-            print("Neplatná volba! Zkus to znovu.")
+            print(f"{CERVENA}Neplatná volba! Zkus to znovu.{RESET}")
             continue
             
-        # Vytvoříme si seznam otázek jen pro vybranou kategorii.
         aktivni_otazky = []
         for o in otazky:
             if o["kategorie"] == volba_kategorie:
                 aktivni_otazky.append(o)
 
-        random.shuffle(aktivni_otazky) # Otázky zamícháme, aby hra nebyla stereotypní.
+        random.shuffle(aktivni_otazky)
         skore = 0
         zivoty = 3
         
-        # Tato vnitřní smyčka prochází připravené otázky jednu po druhé.
         for otazka in aktivni_otazky:
             print("-" * 30)
             print(f"Tvůj stav: {'❤️ ' * zivoty}")
             print(f"(Pro ukončení kvízu napiš slovo 'konec')")
-            print(otazka["text"])
+            print(f"{ZLUTA}{otazka['text']}{RESET}")
             
-            # Zpracování časovky
             if otazka["typ"] == "casovka":
-                print(f"!!! POZOR, máš jen {otazka['limit']} sekund !!!")
+                print(f"{CERVENA}!!! POZOR, máš jen {otazka['limit']} sekund !!!{RESET}")
                 start_cas = time.time()
                 odpoved = input("Tvoje odpověď: ")
                 konec_cas = time.time()
                 uplynuly_cas = konec_cas - start_cas
                 
                 if odpoved.lower().strip() == "konec":
-                    print("\n>>> HRA PŘEDČASNĚ UKONČENA HRÁČEM.")
+                    print(f"\n{ZLUTA}>>> HRA PŘEDČASNĚ UKONČENA HRÁČEM.{RESET}")
                     break
 
                 if uplynuly_cas > otazka["limit"]:
-                    print(f">>> Čas vypršel! Trvalo ti to {uplynuly_cas:.1f} s.")
-                    print(f">>> Správně bylo: {otazka['spravne']}")
+                    print(f"{CERVENA}>>> Čas vypršel! Trvalo ti to {uplynuly_cas:.1f} s.{RESET}")
+                    print(f"{CERVENA}>>> Správně bylo: {otazka['spravne']}{RESET}")
                     zivoty -= 1
                 else:
                     kontrola_spravnosti = otazka["spravne"]
             
-            # Zpracování otázky s výběrem možností
             elif otazka["typ"] == "volba":
                 aktualni_moznosti = otazka["moznosti"].copy()
                 random.shuffle(aktualni_moznosti)
                 pismena = ["a", "b", "c"]
                 pismeno_spravne_odpovedi = ""
                 
-                # Zde přiřazujeme písmena (a, b, c) k náhodně zamíchaným odpovědím.
                 for index, moznost in enumerate(aktualni_moznosti):
                     pismenko = pismena[index]
                     print(f"{pismenko}) {moznost}")
@@ -119,47 +118,43 @@ def spustit_kviz():
                 
                 odpoved = input("Tvoje volba (a/b/c nebo konec): ").lower().strip()
                 if odpoved == "konec":
-                    print("\n>>> HRA PŘEDČASNĚ UKONČENA HRÁČEM.")
+                    print(f"\n{ZLUTA}>>> HRA PŘEDČASNĚ UKONČENA HRÁČEM.{RESET}")
                     break
                 kontrola_spravnosti = pismeno_spravne_odpovedi
                 
-            # Zpracování otevřené textové otázky
             else:
                 odpoved = input("Tvoje odpověď: ")
                 if odpoved.lower().strip() == "konec":
-                    print("\n>>> HRA PŘEDČASNĚ UKONČENA HRÁČEM.")
+                    print(f"\n{ZLUTA}>>> HRA PŘEDČASNĚ UKONČENA HRÁČEM.{RESET}")
                     break
                 kontrola_spravnosti = otazka["spravne"]
 
-            # Logika pro vyhodnocení správnosti (pokud nevypršel čas u časovky)
             if otazka["typ"] != "casovka" or (otazka["typ"] == "casovka" and uplynuly_cas <= otazka["limit"]):
+                # Vyhodnocení odpovědi s barevným odlišením (ZELENA pro úspěch, CERVENA pro fail)
                 if odpoved.lower().strip() == kontrola_spravnosti.lower().strip():
-                    print(">>> Správně!")
+                    print(f"{ZELENA}>>> Správně!{RESET}")
                     skore += 1
                 else:
                     if otazka["typ"] == "volba":
-                        print(f">>> Špatně! Správná volba byla: {kontrola_spravnosti}) {otazka['spravne']}")
+                        print(f"{CERVENA}>>> Špatně! Správná volba byla: {kontrola_spravnosti}) {otazka['spravne']}{RESET}")
                     else:
-                        print(f">>> Špatně! Správně bylo: {otazka['spravne']}")
+                        print(f"{CERVENA}>>> Špatně! Správně bylo: {otazka['spravne']}{RESET}")
                     zivoty -= 1
             
-            # Detekce konce hry z důvodu ztráty všech životů
             if zivoty <= 0:
-                print("\n" + "💀" * 15)
+                print(f"{CERVENA}\n" + "💀" * 15)
                 print("   GAME OVER! DOŠLY TI ŽIVOTY.")
-                print("💀" * 15)
+                print("💀" * 15 + f"{RESET}")
                 break
         
-        # Uložení rekordu, pokud hráč nahrál více bodů než minule
         if skore > osobni_rekord:
             osobni_rekord = skore
-            print("\n*** NOVÝ HISTORICKÝ REKORD! ***")
+            print(f"{ZELENA}\n*** NOVÝ HISTORICKÝ REKORD! ***{RESET}")
             
             with open("rekord.txt", "w", encoding="utf-8") as soubor:
                 soubor.write(str(osobni_rekord))
-                print("> (Rekord byl bezpečně uložen na tvůj disk)")
+                print(f"{ZELENA}> (Rekord byl bezpečně uložen na tvůj disk){RESET}")
 
-        # Finální statistiky za kolo
         print("\n" + "=" * 35)
         print(f"Hráč: {jmeno_hrace}")
         print(f"Skóre z této hry: {skore}")
