@@ -1,54 +1,31 @@
-# Dokumentace k projektu: Parádní Multi-Kvíz
+# Název projektu: Parádní Multi-Kvíz
 
-## 1. Úvodní informace
-**Parádní Multi-Kvíz** je interaktivní konzolová hra naprogramovaná v jazyce Python. Hráčům nabízí možnost otestovat své znalosti v různých kategoriích a typech otázek. Program je navržen tak, aby byl uživatelsky přívětivý, obsahoval herní mechaniky (životy) a pamatoval si historicky nejlepší výsledek hráče.
-
----
-
-## 2. Herní mechaniky a funkce
-
-Program nabízí následující klíčové vlastnosti:
-
-* **Bohatá databáze otázek:** Hra aktuálně operuje s databází 30 různých otázek, aby bylo každé spuštění pestré a výzva byla reálná.
-* **Výběr kategorií:** Hráč si na začátku volí ze tří tematických okruhů (1. Geografie, 2. Věda a technika, 3. Rychlovky). Program vyfiltruje a nabídne z každé sekce 10 otázek.
-* **Tři typy otázek:**
-    * **Výběrové (volba):** Hráč vybírá z možností a), b), c). Možnosti se při každém spuštění náhodně míchají.
-    * **Otevřené:** Hráč musí přímo napsat přesný text odpovědi (systém je ovšem benevolentní k velikosti písmen).
-    * **Časovky:** Speciální otázky s pevným časovým limitem (zpravidla 10 sekund). Pokud hráč neodpoví včas, ztrácí bod i život.
-* **Systém životů (Game Over mechanika):** Hráč začíná každé kolo se 3 životy (reprezentovanými symboly ❤️). Za každou špatnou odpověď nebo vypršení časového limitu ztrácí jeden život. Jakmile životy klesnou na nulu, hra okamžitě končí.
-* **Nekonečná smyčka:** Po dokončení (nebo prohře) se program hráče zeptá, zda chce hrát znovu. Hra běží, dokud ji hráč sám neukončí.
+## Popis a cíl projektu
+**Parádní Multi-Kvíz** je interaktivní konzolová hra vytvořená v jazyce Python. Hlavním cílem tohoto projektu je poskytnout hráčům zábavný a dynamický způsob, jak otestovat své vědomosti v různých oborech, a zároveň si procvičit rychlé rozhodování pod tlakem. Hra je koncipována tak, aby nabídla vysokou znovuhratelnost díky míchání otázek a ukládání nejvyššího skóre napříč spuštěními.
 
 ---
 
-## 3. Technické řešení
+## Popis funkcionality programu
 
-Kód je napsán s ohledem na čitelnost a je plně okomentován. Využívá základní struktury jazyka Python:
+Program nabízí následující prvky a herní mechaniky, díky kterým je uživatelský zážitek bohatý:
 
-### Použité moduly
-* `import random`: Využito pro náhodné míchání pořadí otázek i samotných odpovědí (možností) u výběrových otázek pomocí funkce `random.shuffle()`.
-* `import time`: Využito pro logiku časovek. Zaznamenává se čas před odesláním odpovědi (`time.time()`) a po něm. Rozdíl těchto hodnot určuje uplynulý čas.
-
-### Struktura dat
-Všechny otázky jsou uloženy v jednom hlavním **seznamu** (List). Každá z 30 položek je reprezentována jako **slovník** (Dictionary) s klíči jako `"text"`, `"spravne"`, `"typ"` a `"kategorie"`. Díky této modulární struktuře lze další stovky otázek přidávat bez nutnosti měnit aplikační logiku programu.
-
-### Práce se soubory a výjimky (I/O)
-Program umí trvale ukládat nejlepší skóre (osobní rekord), aby data přežila i vypnutí aplikace:
-* **Čtení:** Na začátku hry se program pomocí chráněného bloku `try-except` pokusí otevřít textový soubor `rekord.txt` v režimu čtení (`r`). Pokud soubor neexistuje, program nespadne, ale výjimka `FileNotFoundError` tuto situaci odchytí a nastaví rekord na hodnotu `0`.
-* **Zápis:** Pokud hráč na konci kola překoná historický rekord, program otevře soubor `rekord.txt` v režimu zápisu (`w`) a novou hodnotu do něj uloží (přepíše tu starou).
+* **Výběr herní kategorie:** Hráč není vázán na jeden druh otázek, ale na počátku herní smyčky si může vybrat ze třech tematických oblastí (Geografie, Věda a technika, Rychlovky).
+* **Různé formáty otázek:** * Výběr z možností (hráč volí a, b, nebo c).
+  * Otevřené otázky (hráč ručně vepisuje text).
+  * Časovky (rychlé otázky, na které má hráč striktní časový limit).
+* **Dynamický barevný výstup:** Prostředí terminálu ožívá díky barvám. Pozitivní zpětná vazba svítí zeleně, chybné odpovědi či varování červeně.
+* **Systém životů:** Hráč disponuje třemi životy. Každá nesprávná odpověď (nebo nestihnutí časového limitu) život odečte. Jakmile klesnou na nulu, nastává Game Over.
+* **Možnost předčasného ukončení:** Do jakéhokoliv pole pro odpověď lze napsat slovo `konec`. Tato funkce okamžitě ukončí aktuální hru a přesune hráče rovnou k vyhodnocení skóre.
+* **Shrnutí chyb:** Pokud hráč ztratí životy, systém mu na konci kola pro zpětnou vazbu vypíše přesné znění otázek, ve kterých pochybil.
 
 ---
 
-## 4. Spuštění programu
+## Technická část
 
-**Požadavky:** Nainstalovaný Python verze 3.x.
+Aplikace je napsána strukturovaně a využívá základní principy programování pro efektivní chod:
 
-1.  Otevři příkazový řádek (Terminál / CMD).
-2.  Pomocí příkazu `cd` se přesuň do složky, kde je projekt uložen.
-3.  Zadej příkaz:
-    ```bash
-    python kviz.py
-    ```
-4.  Dále už jen postupuj podle instrukcí na obrazovce.
-
----
-*Vytvořeno jako projekt pro pochopení základů programování, kolekcí a práce s daty v Pythonu.*
+* **Použité knihovny:** * `random`: Využíváno především pro metodu `random.shuffle()`, která zajišťuje náhodné pořadí otázek a náhodné prohazování možností u výběrových otázek, aby každá hra byla unikátní.
+  * `time`: Slouží pro výpočet uplynulého času. Metoda `time.time()` poskytne UNIXový čas před a po inputu od uživatele a z jejich rozdílu je vypočtena rychlost.
+* **Vlastní datové struktury:** Jádrem celého programu je struktura vrstvená kombinací **seznamů (List)** a **slovníků (Dictionary)**. Celá databáze je uložena v jediném seznamu `otazky`, kde každý prvek tvoří strukturovaný slovník reprezentující jednu otázku a její vlastnosti (typ, správná odpověď, kategorie). Toto řešení je velmi snadno rozšiřitelné (škálovatelné). Ke konci hry se navíc dynamicky plní pomocný seznam `seznam_chyb`.
+* **Práce se soubory (I/O) a výjimky:** Nejvyšší dosažené skóre se trvale zapisuje do souboru `rekord.txt` na lokálním disku (`open(..., "w")`). Při zapnutí programu se skóre naopak načítá (`open(..., "r")`). V této fázi je použit blok `try-except`, který elegantně ošetřuje výjimku `FileNotFoundError` (pro případy, kdy uživatel spouští hru úplně poprvé a soubor ještě fyzicky neexistuje).
+* **Formátování konzole:** Kód využívá nadefinované konstanty ANSI escape sekvencí (např. `\033[92m`) ke změně výstupní barvy textu zabudované přímo ve f-string výpisech.
